@@ -6,7 +6,7 @@
 #    By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/08 11:14:50 by bhibbeln          #+#    #+#              #
-#    Updated: 2025/11/26 16:08:54 by bhibbeln         ###   ########.fr        #
+#    Updated: 2025/11/28 22:43:51 by bhibbeln         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,12 @@ FT_PRINTF = ./ft_printf/ft_printf.a
 
 SRC = 	ft_split.c \
 		error.c \
-		prepare_a.c \
-		prepare_b.c \
 		push_swap.c \
 		push.c \
 		reverse_rotate.c \
 		rotate.c \
 		sort_three.c \
+		sort_chunk.c \
 		stack_init.c \
 		stack_utils.c \
 		swap.c

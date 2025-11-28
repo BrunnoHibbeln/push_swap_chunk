@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 22:37:21 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/26 14:42:40 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/11/28 22:45:25 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,4 @@ int find_max_index(t_stack *stack)
 		stack = stack->next;
 	}
 	return (best);
-}
-
-void free_stack(t_stack **stack)
-{
-	t_stack *curr;
-	t_stack *tmp;
-
-	if (!stack || !*stack)
-		return;
-	curr = *stack;
-	while (curr)
-	{
-		tmp = curr->next;
-		free(curr);
-		curr = tmp;
-	}
-	*stack = NULL;
 }
