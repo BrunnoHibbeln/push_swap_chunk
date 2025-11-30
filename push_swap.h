@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:30:15 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/28 22:32:54 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/11/30 13:41:41 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 # include <stdio.h>
 # include "./ft_printf/printf.h"
 
+
 typedef struct s_stack
 {
 	int				value;
 	struct s_stack	*prev;
 	struct s_stack	*next;
 }	t_stack;
+
+char	**ft_split(char const *s, char c);
 
 // commands
 void	sa(t_stack	**a);
@@ -44,10 +47,10 @@ int		duplicate(t_stack *a, int n);
 void	free_stack(t_stack **stack);
 void	free_errors(t_stack **a);
 
-char	**ft_split(char const *s, char c);
-
 // algorithm
+void	sort_int_array(int *arr, int low, int high);
 void	sort_three(t_stack **a);
+void	sort_five(t_stack **a, t_stack **b);
 void	sort_chunk(t_stack **a, t_stack **b);
 
 // stack init
@@ -59,6 +62,17 @@ int		stack_size(t_stack *stack);
 bool	stack_sorted(t_stack *stack);
 t_stack	*find_max_value(t_stack *stack);
 int		find_max_index(t_stack *stack);
+t_stack	*find_min_value(t_stack *stack);
 void	free_stack(t_stack **stack);
+
+void sort_chunk(t_stack **a, t_stack **b);
+
+// sort_chunk_utils
+/* int		*stack_to_array(t_stack *a, int len);
+int		int_cmp(const void *p, const void *q);
+int		stack_contains_in_range(t_stack *stack, int minv, int maxv);
+int		index_of_first_in_range(t_stack *stack, int minv, int maxv);
+void	rotate_a_to_index(t_stack **a, int idx);
+int		get_best_elem_index(t_stack *a, int minv, int maxv); */
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 22:37:21 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/28 22:45:25 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:45:26 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,26 @@ t_stack *find_max_value(t_stack *stack)
 		stack = stack->next;
 	}
 	return (max_value);
+}
+
+t_stack	*find_min_value(t_stack *stack)
+{
+	long	min;
+	t_stack	*min_value;
+
+	if (!stack)
+		return (NULL);
+	min = INT_MAX;
+	while (stack)
+	{
+		if (stack->value < min)
+		{
+			min = stack->value;
+			min_value = stack;
+		}
+		stack = stack->next;
+	}
+	return (min_value);
 }
 
 int find_max_index(t_stack *stack)
