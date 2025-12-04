@@ -6,15 +6,15 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 22:37:21 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/29 14:45:26 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/04 14:27:08 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_stack *find_last_node(t_stack *stack)
+t_stack	*find_last_node(t_stack *stack)
 {
-	t_stack *last_node;
+	t_stack	*last_node;
 
 	if (!stack)
 		return (NULL);
@@ -24,10 +24,10 @@ t_stack *find_last_node(t_stack *stack)
 	return (last_node);
 }
 
-int stack_size(t_stack *stack)
+int	stack_size(t_stack *stack)
 {
-	t_stack *curr;
-	int i;
+	t_stack	*curr;
+	int		i;
 
 	if (!stack)
 		return (0);
@@ -41,23 +41,23 @@ int stack_size(t_stack *stack)
 	return (i);
 }
 
-bool stack_sorted(t_stack *stack)
+int	stack_sorted(t_stack *stack)
 {
 	if (!stack)
-		return (NULL);
+		return (0);
 	while (stack->next)
 	{
 		if (stack->value > stack->next->value)
-			return (false);
+			return (0);
 		stack = stack->next;
 	}
-	return (true);
+	return (1);
 }
 
-t_stack *find_max_value(t_stack *stack)
+t_stack	*find_max_value(t_stack *stack)
 {
-	long max;
-	t_stack *max_value;
+	long	max;
+	t_stack	*max_value;
 
 	if (!stack)
 		return (NULL);
@@ -92,26 +92,4 @@ t_stack	*find_min_value(t_stack *stack)
 		stack = stack->next;
 	}
 	return (min_value);
-}
-
-int find_max_index(t_stack *stack)
-{
-	int	i;
-	int	best;
-	int	max;
-
-	i = 0;
-	best = 0;
-	max = INT_MIN;
-	while (stack)
-	{
-		if (stack->value > max)
-		{
-			max = stack->value;
-			best = i;
-		}
-		i++;
-		stack = stack->next;
-	}
-	return (best);
 }

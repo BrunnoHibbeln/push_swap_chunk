@@ -5,252 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 14:43:37 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/30 13:41:21 by bhibbeln         ###   ########.fr       */
+/*   Created: 2025/12/03 11:05:24 by bhibbeln          #+#    #+#             */
+/*   Updated: 2025/12/04 16:08:01 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdlib.h>
 
-/* sort_chunk.c
-   Chunk-based sorting phase for push_swap
-   Uses only pb/pa/ra/rb/rra/rrb/sa (assumed implemented elsewhere)
-*/
-
-/* Helper: copy stack to array (returns allocated array, caller frees) */
-static int *stack_to_array(t_stack *a, int len)
+static int	value_is_in_chunk(int start, int end, int *sorted, int value)
 {
-    int *arr;
-    int i = 0;
-    arr = malloc(sizeof(int) * len);
-    if (!arr) return NULL;
-    while (a && i < len)
-    {
-        arr[i++] = a->value;
-        a = a->next;
-    }
-    return arr;
+	return (value >= sorted[start] && value <= sorted[end]);
 }
 
-/* int comparator for qsort */
-static int int_cmp(const void *p, const void *q)
+static void	update_chunk(t_info *c_info, int *pushed)
 {
-    int a = *(const int*)p;
-    int b = *(const int*)q;
-    return (a > b) - (a < b);
+	c_info->start += c_info->chunk_size;
+	c_info->end += c_info->chunk_size;
+	*pushed = 0;
+	if (c_info->end >= c_info->size)
+		c_info->end = c_info->size - 1;
 }
 
-/* Helper: does stack contain any value in [minv,maxv]? */
-static int stack_contains_in_range(t_stack *stack, int minv, int maxv)
+static void	send_a_to_b(t_stack **a, t_stack **b,
+						int *sorted, t_info *c_info)
 {
-    while (stack)
-    {
-        if (stack->value >= minv && stack->value <= maxv)
-            return 1;
-        stack = stack->next;
-    }
-    return 0;
-}
+	int	idx;
+	int	value;
+	int	pushed;
 
-/* Helper: find index (0-based) of first element in stack within [minv,maxv], or -1 */
-static int index_of_first_in_range(t_stack *stack, int minv, int maxv)
-{
-    int idx = 0;
-    while (stack)
-    {
-        if (stack->value >= minv && stack->value <= maxv)
-            return idx;
-        stack = stack->next;
-        idx++;
-    }
-    return -1;
-}
-
-/* Helper: rotate A to bring element at index idx to top with minimal moves */
-static void rotate_a_to_index(t_stack **a, int idx)
-{
-    int len = stack_size(*a);
-    if (idx <= len / 2)
-    {
-        while (idx-- > 0)
-            ra(a);
-    }
-    else
-    {
-        int moves = len - idx;
-        while (moves-- > 0)
-            rra(a);
-    }
-}
-
-/* Helper: find index of max value in stack (0-based) */
-static int find_max_index_local(t_stack *stack)
-{
-    int idx = 0;
-    int best_idx = 0;
-    int best_val = -2147483648; /* INT_MIN */
-    while (stack)
-    {
-        if (stack->value > best_val)
-        {
-            best_val = stack->value;
-            best_idx = idx;
-        }
-        idx++;
-        stack = stack->next;
-    }
-    return best_idx;
-}
-
-/* Push all values in [minv,maxv] from A to B.
-   Heuristic: after pb, if pushed value < mid, rotate B to push it toward bottom. */
-static void push_chunk_range(t_stack **a, t_stack **b, int minv, int maxv)
-{
-    while (stack_contains_in_range(*a, minv, maxv))
-    {
-        int idx = index_of_first_in_range(*a, minv, maxv);
-        if (idx < 0) break;
-        rotate_a_to_index(a, idx);
-        /* now top of A is in range */
-        pb(b, a); /* push to B */
-        /* Optional heuristic: if the pushed value is in lower half of chunk, rotate B so smalls go down */
-        if (*b && (*b)->value < (minv + maxv) / 2)
-            rb(b);
-    }
-}
-
-/* Main chunk sort function */
-void sort_chunk(t_stack **a, t_stack **b)
-{
-    int len = stack_size(*a);
-    if (len <= 1) return;
-    if (len == 2)
-    {
-        if ((*a)->value > (*a)->next->value)
-            sa(a);
-        return;
-    }
-    if (len == 3)
-    {
-        /* reuse your sort_three; assume prototype: void sort_three(t_stack **a); */
-        sort_three(a);
-        return;
-    }
-
-    /* Create sorted array */
-    int *arr = stack_to_array(*a, len);
-    if (!arr) return;
-    qsort(arr, len, sizeof(int), int_cmp);
-
-    /* choose chunks count heuristically */
-    int chunks = 5;
-    if (len <= 100) chunks = 5;
-    else if (len <= 250) chunks = 7;
-    else chunks = 11; /* for 500+ */
-
-    int chunk_size = (len + chunks - 1) / chunks;
-    for (int c = 0; c < chunks; ++c)
-    {
-        int start = c * chunk_size;
-        if (start >= len) break;
-        int end = start + chunk_size - 1;
-        if (end >= len) end = len - 1;
-        int minv = arr[start];
-        int maxv = arr[end];
-        push_chunk_range(a, b, minv, maxv);
-    }
-    free(arr);
-
-    /* Now move all from B back to A: bring max in B to top and pa */
-    while (*b)
-    {
-        int max_idx = find_max_index_local(*b);
-        int lenb = stack_size(*b);
-        if (max_idx <= lenb / 2)
-        {
-            while (max_idx-- > 0)
-                rb(b);
-        }
-        else
-        {
-            int moves = lenb - max_idx;
-            while (moves-- > 0)
-                rrb(b);
-        }
-        pa(a, b);
-    }
-
-    /* final alignment: ensure smallest is at top */
-    /* rotate A until smallest is on top (optional, depending on tests you might want this) */
-    /* find index of min and rotate (you can add helper if needed) */
-}
-
-/* 
-static void push_chunk_range(t_stack **a, t_stack **b, int minv, int maxv)
-{
-	while (stack_contains_in_range(*a, minv, maxv))
+	pushed = 0;
+	while (*a)
 	{
-		int idx = index_of_first_in_range(*a, minv, maxv);
-		if (idx < 0)
-			break;
-		rotate_a_to_index(a, idx);
-		pb(b, a);
-		if (*b && (*b)->value < (minv + maxv) / 2)
-			rb(b);
+		value = (*a)->value;
+		if (value_is_in_chunk(c_info->start, c_info->end, sorted, value))
+		{
+			pb(b, a);
+			pushed++;
+			idx = index_of(sorted, c_info->size, value);
+			if (idx && idx < c_info->start + (c_info->chunk_size / 2))
+				rb(b);
+		}
+		else
+			ra(a);
+		if (pushed == (c_info->end - c_info->start + 1))
+			update_chunk(c_info, &pushed);
 	}
 }
 
-void sort_chunk(t_stack **a, t_stack **b)
+static void	send_b_to_a(t_stack **a, t_stack **b)
 {
-	int len;
-
-	len = stack_size(*a);
-	int *arr = stack_to_array(*a, len);
-	if (!arr)
-		return;
-	sort_int_array(arr, len, sizeof(int));
-
-	int chunks = 5;
-	if (len <= 100)
-		chunks = 5;
-	else if (len <= 250)
-		chunks = 7;
-	else
-		chunks = 11;
-
-	int chunk_size = (len + chunks - 1) / chunks;
-	for (int c = 0; c < chunks; ++c)
-	{
-		int start = c * chunk_size;
-		if (start >= len)
-			break;
-		int end = start + chunk_size - 1;
-		if (end >= len)
-			end = len - 1;
-		int minv = arr[start];
-		int maxv = arr[end];
-		push_chunk_range(a, b, minv, maxv);
-	}
-	free(arr);
+	t_stack	*max;
+	int		pos;
 
 	while (*b)
 	{
-		int max_idx = find_max_index(*b);
-		int lenb = stack_size(*b);
-		if (max_idx <= lenb / 2)
+		max = find_max_value(*b);
+		pos = position_of(*b, max);
+		if (pos <= stack_size(*b) / 2)
 		{
-			while (max_idx-- > 0)
+			while (*b != max)
 				rb(b);
 		}
 		else
 		{
-			int moves = lenb - max_idx;
-			while (moves-- > 0)
+			while (*b != max)
 				rrb(b);
 		}
 		pa(a, b);
 	}
-
 }
- */
+
+void	sort_chunk(t_stack **a, t_stack **b, int size)
+{
+	t_info		c_info;
+	int			*sorted;
+	int			chunk_size;
+	int			start;
+	int			end;
+
+	sorted = clone_values_sorted(*a, size);
+	sort_array(sorted, size);
+	chunk_size = choose_chunk_size(size);
+	start = 0;
+	end = chunk_size - 1;
+	c_info.chunk_size = chunk_size;
+	c_info.size = size;
+	c_info.start = start;
+	c_info.end = end;
+	send_a_to_b(a, b, sorted, &c_info);
+	send_b_to_a(a, b);
+	free(sorted);
+}

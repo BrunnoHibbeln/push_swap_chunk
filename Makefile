@@ -6,7 +6,7 @@
 #    By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/08 11:14:50 by bhibbeln          #+#    #+#              #
-#    Updated: 2025/11/30 13:41:47 by bhibbeln         ###   ########.fr        #
+#    Updated: 2025/12/04 11:16:56 by bhibbeln         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC = 	ft_split.c \
 		sort_three.c \
 		sort_five.c \
 		sort_chunk.c \
-		sort_int_array.c \
+		sort_chunk_utils.c \
 		stack_init.c \
 		stack_utils.c \
 		swap.c
