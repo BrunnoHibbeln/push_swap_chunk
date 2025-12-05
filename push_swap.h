@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:30:15 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/04 16:01:17 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:52:23 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_stack	*find_min_value(t_stack *stack);
 void	free_stack(t_stack **stack);
 
 // sort_chunk_utils
-int		*clone_values_sorted(t_stack *a, int size);
+int		*clone_values(t_stack *a, int size);
 void	sort_array(int *sorted, int size);
 int		choose_chunk_size(int size);
 int		index_of(int *sorted, int size, int value);

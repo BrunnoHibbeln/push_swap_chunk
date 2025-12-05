@@ -6,13 +6,13 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 10:50:57 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/04 14:34:54 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:52:16 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	*clone_values_sorted(t_stack *a, int size)
+int	*clone_values(t_stack *a, int size)
 {
 	int	*sorted;
 	int	i;
