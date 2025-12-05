@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:30:15 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/05 13:52:23 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:58:03 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-typedef struct c_info
+typedef struct c_chunk
 {
 	int	chunk_size;
 	int	size;
 	int	start;
 	int	end;
-}	t_info;
+}	t_chunk;
 
 char	**ft_split(char const *s, char c);
 

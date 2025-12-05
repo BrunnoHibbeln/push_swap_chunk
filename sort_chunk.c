@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:05:24 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/05 13:52:30 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:58:47 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static int	value_is_in_chunk(int start, int end, int *sorted, int value)
 	return (value >= sorted[start] && value <= sorted[end]);
 }
 
-static void	update_chunk(t_info *c_info, int *pushed)
+static void	update_chunk(t_chunk *chunk, int *pushed)
 {
-	c_info->start += c_info->chunk_size;
-	c_info->end += c_info->chunk_size;
+	chunk->start += chunk->chunk_size;
+	chunk->end += chunk->chunk_size;
 	*pushed = 0;
-	if (c_info->end >= c_info->size)
-		c_info->end = c_info->size - 1;
+	if (chunk->end >= chunk->size)
+		chunk->end = chunk->size - 1;
 }
 
 static void	send_a_to_b(t_stack **a, t_stack **b,
-						int *sorted, t_info *c_info)
+						int *sorted, t_chunk *chunk)
 {
 	int	idx;
 	int	value;
@@ -37,18 +37,18 @@ static void	send_a_to_b(t_stack **a, t_stack **b,
 	while (*a)
 	{
 		value = (*a)->value;
-		if (value_is_in_chunk(c_info->start, c_info->end, sorted, value))
+		if (value_is_in_chunk(chunk->start, chunk->end, sorted, value))
 		{
 			pb(b, a);
 			pushed++;
-			idx = index_of(sorted, c_info->size, value);
-			if (idx && idx < c_info->start + (c_info->chunk_size / 2))
+			idx = index_of(sorted, chunk->size, value);
+			if (idx && idx < chunk->start + (chunk->chunk_size / 2))
 				rb(b);
 		}
 		else
 			ra(a);
-		if (pushed == (c_info->end - c_info->start + 1))
-			update_chunk(c_info, &pushed);
+		if (pushed == (chunk->end - chunk->start + 1))
+			update_chunk(chunk, &pushed);
 	}
 }
 
@@ -77,16 +77,16 @@ static void	send_b_to_a(t_stack **a, t_stack **b)
 
 void	sort_chunk(t_stack **a, t_stack **b, int size)
 {
-	t_info		c_info;
+	t_chunk		chunk;
 	int			*sorted;
 
 	sorted = clone_values(*a, size);
 	sort_array(sorted, size);
-	c_info.chunk_size = choose_chunk_size(size);
-	c_info.size = size;
-	c_info.start = 0;
-	c_info.end = c_info.chunk_size - 1;
-	send_a_to_b(a, b, sorted, &c_info);
+	chunk.chunk_size = choose_chunk_size(size);
+	chunk.size = size;
+	chunk.start = 0;
+	chunk.end = chunk.chunk_size - 1;
+	send_a_to_b(a, b, sorted, &chunk);
 	send_b_to_a(a, b);
 	free(sorted);
 }
