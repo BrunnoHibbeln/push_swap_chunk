@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 21:59:33 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/28 22:26:14 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:53:58 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	free_stack(t_stack **stack)
 	while (current)
 	{
 		tmp = current->next;
-		current->value = 0;
 		free(current);
 		current = tmp;
 	}
