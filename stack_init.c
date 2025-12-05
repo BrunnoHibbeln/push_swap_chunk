@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 18:19:14 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/11/26 16:01:24 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 12:44:52 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ static void	append_to_stack(t_stack **stack, int n)
 	}
 }
 
-void	init_stack_a(t_stack **a, char **argv)
+void	init_stack_a(t_stack **a, char **args)
 {
 	long	n;
 	int		i;
 
 	i = 0;
-	while (argv[i])
+	while (args[i])
 	{
-		if (syntax(argv[i]))
+		if (syntax(args[i]))
 			free_errors(a);
-		n = ft_atol(argv[i]);
+		n = ft_atol(args[i]);
 		if (n > INT_MAX || n < INT_MIN)
 			free_errors(a);
 		if (duplicate(*a, (int)n))
