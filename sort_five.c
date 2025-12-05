@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 14:41:28 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/04 14:35:44 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 13:18:19 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,4 @@ void	sort_five(t_stack **a, t_stack **b)
 	sort_three(a);
 	while (*b)
 		pa(a, b);
-	while ((*a)->value != find_min_value(*a)->value)
-		ra(a);
 }
