@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:30:15 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/05 13:58:03 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 14:02:30 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_stack
 typedef struct c_chunk
 {
 	int	chunk_size;
-	int	size;
+	int	total;
 	int	start;
 	int	end;
 }	t_chunk;

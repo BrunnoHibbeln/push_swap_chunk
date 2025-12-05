@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:05:24 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/05 13:58:47 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 14:02:21 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static void	update_chunk(t_chunk *chunk, int *pushed)
 	chunk->start += chunk->chunk_size;
 	chunk->end += chunk->chunk_size;
 	*pushed = 0;
-	if (chunk->end >= chunk->size)
-		chunk->end = chunk->size - 1;
+	if (chunk->end >= chunk->total)
+		chunk->end = chunk->total - 1;
 }
 
 static void	send_a_to_b(t_stack **a, t_stack **b,
@@ -41,7 +41,7 @@ static void	send_a_to_b(t_stack **a, t_stack **b,
 		{
 			pb(b, a);
 			pushed++;
-			idx = index_of(sorted, chunk->size, value);
+			idx = index_of(sorted, chunk->total, value);
 			if (idx && idx < chunk->start + (chunk->chunk_size / 2))
 				rb(b);
 		}
@@ -83,7 +83,7 @@ void	sort_chunk(t_stack **a, t_stack **b, int size)
 	sorted = clone_values(*a, size);
 	sort_array(sorted, size);
 	chunk.chunk_size = choose_chunk_size(size);
-	chunk.size = size;
+	chunk.total = size;
 	chunk.start = 0;
 	chunk.end = chunk.chunk_size - 1;
 	send_a_to_b(a, b, sorted, &chunk);
