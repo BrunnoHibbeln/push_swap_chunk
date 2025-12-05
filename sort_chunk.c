@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 11:05:24 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/04 16:08:01 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/05 11:43:33 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,13 @@ void	sort_chunk(t_stack **a, t_stack **b, int size)
 {
 	t_info		c_info;
 	int			*sorted;
-	int			chunk_size;
-	int			start;
-	int			end;
 
 	sorted = clone_values_sorted(*a, size);
 	sort_array(sorted, size);
-	chunk_size = choose_chunk_size(size);
-	start = 0;
-	end = chunk_size - 1;
-	c_info.chunk_size = chunk_size;
+	c_info.chunk_size = choose_chunk_size(size);
 	c_info.size = size;
-	c_info.start = start;
-	c_info.end = end;
+	c_info.start = 0;
+	c_info.end = c_info.chunk_size - 1;
 	send_a_to_b(a, b, sorted, &c_info);
 	send_b_to_a(a, b);
 	free(sorted);
