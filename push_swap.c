@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 14:29:26 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/11 10:59:12 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:14:14 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	main(int argc, char **argv)
 	b = NULL;
 	args = NULL;
 	args_splited = 0;
-	if (argc == 1 || (argc == 2))
+	if (argc == 1)
 		return (1);
 	if (argc > 2)
 		args = argv + 1;
 	else if (!make_split(&args, argv[1], &args_splited))
-		return (0);
+		return (1);
 	init_stack_a(&a, args);
 	if (!stack_sorted(a))
 		choose_algorithm(&a, &b);
