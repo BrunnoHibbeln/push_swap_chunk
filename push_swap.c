@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 14:29:26 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/04 14:18:08 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/11 10:59:12 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,18 @@ static void	free_args(char **args)
 	free(args);
 }
 
+static int make_split(char ***args, char *argv, int *args_splited)
+{
+	*args = ft_split(argv, ' ');
+	*args_splited = 1;
+	if (!*args || !*args[0])
+	{
+		free_args(*args);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*a;
@@ -48,15 +60,12 @@ int	main(int argc, char **argv)
 	b = NULL;
 	args = NULL;
 	args_splited = 0;
-	if (argc == 1 || (argc == 2 && !argv[1][0]))
+	if (argc == 1 || (argc == 2))
 		return (1);
-	if (argc == 2)
-	{
-		args = ft_split(argv[1], ' ');
-		args_splited = 1;
-	}
-	else
+	if (argc > 2)
 		args = argv + 1;
+	else if (!make_split(&args, argv[1], &args_splited))
+		return (0);
 	init_stack_a(&a, args);
 	if (!stack_sorted(a))
 		choose_algorithm(&a, &b);
