@@ -6,7 +6,7 @@
 /*   By: bhibbeln <bhibbeln@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:30:15 by bhibbeln          #+#    #+#             */
-/*   Updated: 2025/12/05 14:02:30 by bhibbeln         ###   ########.fr       */
+/*   Updated: 2025/12/12 08:56:34 by bhibbeln         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdbool.h>
 # include <limits.h>
 # include <stdio.h>
-# include "./ft_printf/printf.h"
+# include "./ft_printf/ft_printf.h"
 
 typedef struct s_stack
 {
